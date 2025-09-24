@@ -47,11 +47,11 @@ export class SqliteDatabase implements Database {
                 threadID TEXT,
                 scene TEXT,
                 step TEXT,
-                body TEXT NOT NULL,              -- JSON
-                replyRestriction TEXT,           -- JSON
+                body TEXT NOT NULL, -- JSON
+                replyRestriction TEXT, -- JSON
                 createdAt INTEGER NOT NULL
             );`,
-            `CREATE INDEX IF NOT EXISTS idx_messages_chat_createdAt ON messages(chatID, createdAt);`,
+            `CREATE INDEX IF NOT EXISTS idx_messages_chat_createdAt ON messages(chatID, createdAt DESC, id DESC);`,
 
             `CREATE TABLE IF NOT EXISTS confirmed_steps (
                 id TEXT PRIMARY KEY,
@@ -107,7 +107,7 @@ export class SqliteDatabase implements Database {
         );
         this.stmts.getMessageByID = db.prepare(`SELECT * FROM messages WHERE id = ?`);
         this.stmts.getMessagesByChatID = db.prepare(
-            `SELECT * FROM messages WHERE chatID = ? ORDER BY createdAt DESC LIMIT ? OFFSET ?`
+            `SELECT * FROM messages WHERE chatID = ? ORDER BY createdAt DESC, id DESC LIMIT ? OFFSET ?`
         );
         this.stmts.deleteOldMessages = db.prepare(`DELETE FROM messages WHERE createdAt < ?`);
         this.stmts.deleteMessagesByChatID = db.prepare(`DELETE FROM messages WHERE chatID = ?`);
