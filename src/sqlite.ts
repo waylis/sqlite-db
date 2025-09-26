@@ -48,7 +48,7 @@ export class SqliteDatabase implements Database {
                 scene TEXT,
                 step TEXT,
                 body TEXT NOT NULL, -- JSON
-                replyRestriction TEXT, -- JSON
+                reply TEXT, -- JSON
                 createdAt INTEGER NOT NULL
             );`,
             `CREATE INDEX IF NOT EXISTS idx_messages_chat_createdAt ON messages(chatID, createdAt DESC, id DESC);`,
@@ -102,7 +102,7 @@ export class SqliteDatabase implements Database {
 
         // messages
         this.stmts.addMessage = db.prepare(
-            `INSERT INTO messages(id, chatID, senderID, replyTo, threadID, scene, step, body, replyRestriction, createdAt)
+            `INSERT INTO messages(id, chatID, senderID, replyTo, threadID, scene, step, body, reply, createdAt)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         );
         this.stmts.getMessageByID = db.prepare(`SELECT * FROM messages WHERE id = ?`);
@@ -151,7 +151,7 @@ export class SqliteDatabase implements Database {
             scene: row.scene ?? undefined,
             step: row.step ?? undefined,
             body: JSON.parse(row.body),
-            replyRestriction: row.replyRestriction ? JSON.parse(row.replyRestriction) : undefined,
+            reply: row.reply ? JSON.parse(row.reply) : undefined,
             createdAt: new Date(row.createdAt),
         };
     }
@@ -241,7 +241,7 @@ export class SqliteDatabase implements Database {
             msg.scene ?? null,
             msg.step ?? null,
             JSON.stringify(msg.body),
-            msg.replyRestriction ? JSON.stringify(msg.replyRestriction) : null,
+            msg.reply ? JSON.stringify(msg.reply) : null,
             msg.createdAt.getTime()
         );
     }
