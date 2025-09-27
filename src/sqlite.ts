@@ -1,5 +1,6 @@
 import type { Chat, ConfirmedStep, FileMeta, Message, Database } from "@waylis/shared";
 import Sqlite from "better-sqlite3";
+import { jsonDateReviver } from "./utils";
 
 export class SqliteDatabase implements Database {
     private dbPath: string;
@@ -150,8 +151,8 @@ export class SqliteDatabase implements Database {
             threadID: row.threadID,
             scene: row.scene ?? undefined,
             step: row.step ?? undefined,
-            body: JSON.parse(row.body),
-            reply: row.reply ? JSON.parse(row.reply) : undefined,
+            body: JSON.parse(row.body, jsonDateReviver),
+            reply: row.reply ? JSON.parse(row.reply, jsonDateReviver) : undefined,
             createdAt: new Date(row.createdAt),
         };
     }
