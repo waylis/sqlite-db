@@ -17,6 +17,10 @@
     "test": "npx tsx --test",
     "build": "tsdown"
   },
+  "dependencies": {
+    "@waylis/shared": "^0.1.0",
+    "better-sqlite3": "^12.2.0"
+  },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^24.5.0",
@@ -38,8 +42,5 @@
       "import": "./build/index.js",
       "default": "./build/index.js"
     }
-  },
-  "dependencies": {
-    "better-sqlite3": "^12.2.0"
   }
 }
