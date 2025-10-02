@@ -6,5 +6,6 @@ export default defineConfig([
         format: ["esm", "cjs"],
         dts: true,
         outDir: "build",
+        tsconfig: "./tsconfig.json",
     },
 ]);
